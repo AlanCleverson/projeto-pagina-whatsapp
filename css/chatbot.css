@@ -1,0 +1,454 @@
+
+/* =========================================
+   CHATBOT LU DESIGNER — VERSÃO 2.2
+   ========================================= */
+
+/* BOTÃO DE ABERTURA DO CHATBOT
+   Agora integrado à seção inferior do site. */
+
+#lu-chat-launcher {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+
+    width: auto;
+    min-width: 230px;
+    min-height: 52px;
+    height: auto;
+
+    margin: 12px auto 0;
+    padding: 14px 24px;
+
+    border: none;
+    border-radius: 999px;
+
+    background: #25d366;
+    color: #ffffff;
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+
+    cursor: pointer;
+
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#lu-chat-launcher:hover {
+    background: #1fbd5b;
+    transform: translateY(-2px);
+    box-shadow: 0 9px 22px rgba(37, 211, 102, 0.3);
+}
+
+#lu-chat-launcher:focus-visible {
+    outline: 3px solid #075e54;
+    outline-offset: 4px;
+}
+
+#lu-chat-launcher svg {
+    display: block;
+    width: 23px;
+    height: 23px;
+    flex: 0 0 23px;
+    fill: currentColor;
+}
+
+#lu-chat-launcher.is-hidden {
+    display: none;
+}
+
+/* JANELA PRINCIPAL DO CHAT */
+
+#lu-chat-window {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 1001;
+
+    display: none;
+    flex-direction: column;
+
+    width: min(390px, calc(100vw - 32px));
+    height: min(640px, calc(100dvh - 44px));
+
+    overflow: hidden;
+
+    border: 1px solid rgba(64, 54, 48, 0.12);
+    border-radius: 18px;
+
+    background: #f7f4ef;
+
+    box-shadow: 0 18px 55px rgba(64, 54, 48, 0.23);
+
+    font-family: "DM Sans", sans-serif;
+}
+
+#lu-chat-window.is-open {
+    display: flex;
+}
+
+/* CABEÇALHO DO CHAT */
+
+.lu-chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    flex: 0 0 auto;
+
+    padding: 15px;
+
+    background: #075e54;
+    color: #ffffff;
+}
+
+.lu-chat-avatar {
+    display: grid;
+    place-items: center;
+
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+
+    border-radius: 50%;
+
+    background: #f3dfe6;
+    color: #754254;
+
+    font-size: 24px;
+}
+
+.lu-chat-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.lu-chat-heading strong {
+    display: block;
+    font-size: 15px;
+}
+
+.lu-chat-heading span {
+    display: block;
+    color: #d4eee7;
+    font-size: 12px;
+}
+
+#lu-chat-close {
+    width: 38px;
+    height: 38px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: transparent;
+    color: #ffffff;
+
+    font-size: 29px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+#lu-chat-close:hover {
+    background: rgba(255, 255, 255, 0.13);
+}
+
+/* ÁREA DAS MENSAGENS */
+
+#lu-chat-messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    padding: 15px;
+
+    background: #eae6df;
+}
+
+/* BOLHAS DE CONVERSA */
+
+.lu-chat-message {
+    max-width: 90%;
+
+    padding: 11px 12px;
+
+    border-radius: 12px;
+
+    color: #342f2b;
+
+    font-size: 13px;
+    line-height: 1.55;
+
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+
+    animation: lu-chat-appear 0.22s ease both;
+}
+
+.lu-chat-message.bot {
+    align-self: flex-start;
+
+    border-top-left-radius: 3px;
+
+    background: #ffffff;
+}
+
+.lu-chat-message.user {
+    align-self: flex-end;
+
+    border-top-right-radius: 3px;
+
+    background: #d9fdd3;
+}
+
+/* HORÁRIO DAS MENSAGENS */
+
+.lu-chat-time {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #888888;
+
+    text-align: right;
+    font-size: 10px;
+}
+
+/* FOTOS ENVIADAS PELO CHATBOT */
+
+.lu-chat-message img {
+    display: block;
+
+    width: 100%;
+    max-width: 235px;
+    max-height: 280px;
+
+    margin-top: 9px;
+
+    border-radius: 9px;
+
+    object-fit: cover;
+}
+
+.lu-chat-photo-group p {
+    margin: 10px 0 0;
+}
+
+/* ÁREA DE OPÇÕES
+   O menu será apresentado como mensagem de texto.
+   Não haverá botões de opções nesta versão. */
+
+.lu-chat-options {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 7px;
+
+    max-height: 38%;
+    overflow-y: auto;
+
+    padding: 0 13px 12px;
+
+    background: #eae6df;
+}
+
+#lu-chat-options:empty {
+    display: none;
+}
+
+.lu-chat-option {
+    width: 100%;
+    min-height: 40px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #d7c8bc;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #087e70;
+
+    text-align: left;
+
+    font: 700 12px "DM Sans", sans-serif;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.lu-chat-option:hover {
+    border-color: #9abbb0;
+    background: #f1faf5;
+}
+
+.lu-chat-option:focus-visible {
+    outline: 2px solid #075e54;
+    outline-offset: 2px;
+}
+
+/* CAMPO PARA DIGITAR MENSAGENS */
+
+.lu-chat-input {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+
+    padding: 10px;
+
+    background: #f7f7f7;
+}
+
+.lu-chat-input input {
+    min-width: 0;
+    flex: 1;
+
+    padding: 12px 14px;
+
+    border: 1px solid #e5e0dc;
+    border-radius: 24px;
+
+    outline: none;
+
+    font: 13px "DM Sans", sans-serif;
+}
+
+.lu-chat-input input:focus {
+    border-color: #8fb9ae;
+}
+
+.lu-chat-input button {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: #075e54;
+    color: #ffffff;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+/* RODAPÉ DO CHAT */
+
+.lu-chat-footer {
+    flex: 0 0 auto;
+
+    padding: 7px;
+
+    background: #f7f7f7;
+    color: #887f78;
+
+    text-align: center;
+    font-size: 10px;
+}
+
+.lu-chat-link {
+    display: inline-block;
+
+    margin-top: 8px;
+    padding: 10px 14px;
+
+    border-radius: 22px;
+
+    background: #168b55;
+    color: #ffffff;
+
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* ANIMAÇÃO DAS MENSAGENS */
+
+@keyframes lu-chat-appear {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* AJUSTES PARA CELULARES */
+
+@media (max-width: 600px) {
+
+    /* Botão integrado ao conteúdo da página */
+
+    #lu-chat-launcher {
+        position: static;
+
+        width: min(100%, 340px);
+        min-width: 0;
+        min-height: 52px;
+
+        margin: 12px auto 0;
+        padding: 14px 20px;
+
+        font-size: 14px;
+    }
+
+    /* Chat em tela cheia */
+
+    #lu-chat-window,
+    #lu-chat-window.is-open {
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+        height: 100dvh;
+
+        max-height: none;
+
+        border: 0;
+        border-radius: 0;
+    }
+
+    .lu-chat-header {
+        padding-top: max(15px, env(safe-area-inset-top));
+    }
+
+    .lu-chat-input {
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
+
+    .lu-chat-options {
+        max-height: 34%;
+    }
+}
+
+/* ACESSIBILIDADE: REDUÇÃO DE MOVIMENTO */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .lu-chat-message {
+        animation: none;
+    }
+
+    #lu-chat-launcher {
+        transition: none;
+    }
+}
